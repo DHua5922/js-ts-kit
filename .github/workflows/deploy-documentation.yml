@@ -34,10 +34,10 @@ jobs:
         run: corepack enable
 
       # Install npm package for component library and update package.json file to use that component library, instead of local library
-      - name: Install npm package for @cfbs/js-utility
+      - name: Install npm package for js-ts-kit
         run: |
           cd documentation
-          yarn add @cfbs/js-utility
+          yarn add js-ts-kit
 
       - name: Install dependencies
         working-directory: documentation
