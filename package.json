@@ -2,9 +2,9 @@
   "name": "js-ts-kit",
   "repository": {
     "type": "git",
-    "url": "https://github.com/DHua5922/template-kit"
+    "url": "https://github.com/DHua5922/js-ts-kit"
   },
-  "version": "11.0.1",
+  "version": "1.0.0",
   "description": "JavaScript Utility Library",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
