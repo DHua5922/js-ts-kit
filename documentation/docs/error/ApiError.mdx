@@ -1,0 +1,93 @@
+---
+sidebar_position: 3
+---
+
+import Code from "@site/src/components/functional/Code";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+# ApiError
+
+Class for getting API error message from parameter in `catch` block.
+
+:::note
+Class can be used in frontend and backend
+:::
+
+## Import
+
+<Tabs>
+  <TabItem value="ES5" label="ES5" default>
+    
+    ```jsx
+    const { ApiError } = require("js-ts-kit");
+    ```
+
+  </TabItem>
+  <TabItem value="ES6" label="ES6">
+
+     ```jsx
+    import { ApiError } from "js-ts-kit";
+    ```
+
+  </TabItem>
+</Tabs>
+
+## Example
+
+<Code.ApiError />
+
+## Reference
+
+### Create Object
+
+`new ApiError(message, status)`
+
+| Name      | Type     | Default Value | Description                   |
+| --------- | -------- | ------------- | ----------------------------- |
+| `message` | `string` |               | error message                 |
+| `status`  | `number` | 500           | status code from API response |
+
+### Object Properties
+
+:::note
+Includes all properties from [`DefaultError`](/docs/error/DefaultError) class
+:::
+
+| Name     | Type     | Static | Default Value |
+| -------- | -------- | ------ | ------------- |
+| `status` | `number` | yes    | 500           |
+
+### Methods
+
+:::note
+Includes all methods from [`DefaultError`](/docs/error/DefaultError) class
+:::
+
+#### `static isApiError(err)`
+
+##### Parameters
+
+- <b>Type:</b> `Error`
+
+- <b>Description:</b> `Error` parameter from `catch` block
+
+##### Returns
+
+- <b>Type:</b> `boolean`
+
+- <b>Description:</b> `true` if error is from sequelize; otherwise, `false`
+
+#### `static default(err)`
+
+##### Parameters
+
+- <b>Type:</b> `Error`
+
+- <b>Description:</b> `Error` parameter from `catch` block
+
+##### Returns
+
+- <b>Type:</b> `string`
+
+- <b>Description:</b> message from `Error` parameter from `catch` block

@@ -1,0 +1,59 @@
+---
+sidebar_position: 3
+---
+
+import Code from "@site/src/components/functional/Code";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+# parseCookie
+
+Function that converts cookie `string` to `object`
+
+:::note
+Function should be used in backend
+:::
+
+## Import
+
+<Tabs>
+  <TabItem value="ES5" label="ES5" default>
+    
+    ```jsx
+    const { parseCookie } = require("js-ts-kit");
+    ```
+
+  </TabItem>
+  <TabItem value="ES6" label="ES6">
+
+     ```jsx
+    import { parseCookie } from "js-ts-kit";
+    ```
+
+  </TabItem>
+</Tabs>
+
+## Function
+
+`parseCookie(cookieString)`
+
+## Parameters
+
+- <b>Type:</b> `string`
+
+- <b>Description:</b> cookie `string` as value of `Cookie` property in request
+  headers.
+
+```
+accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IndldGFpclRlc3RAY2Zicy11cy5jb20iLCJpYXQiOjE2Njg1NTAzNDMsImV4cCI6MTY2ODU1MTU3N30.A1Kg-1nUcGHcaxCrffhvl9O_r3ruumjOExpcTrm0WlM; refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InByb1JNUEF2aWF0aW9uQGNmYnMtdXMuY29tIiwiaWF0IjoxNjk2ODc0Mzg0LCJleHAiOjE2OTY4NzU2MTh9.9AgPEvfwWbS5UzZckwsoF98Hkmgxn-Dq0JETf4SAQfQ; token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRodWFAY2Zicy11cy5jb20iLCJlbWFpbCI6ImRodWFAY2Zicy11cy5jb20iLCJpYXQiOjE3MTcxODQ3MzgsImV4cCI6MTcxNzI3MTEzOH0.WeDDi3pc4ZSkwHrno4Wb-ftrCKXqBsJRfpVBZRYrdoo
+```
+
+## Returns
+
+- <b>Type:</b> `object`
+
+- <b>Description:</b> `object` of parsed cookie `string`
+
+## Example
+
+<Code.ParseCookie />

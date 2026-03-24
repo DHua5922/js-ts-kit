@@ -1,0 +1,131 @@
+---
+sidebar_position: 1
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+# Mongoose
+
+Class for working with [MongoDB database](https://www.mongodb.com/) and [mongoose](https://mongoosejs.com/).
+
+:::note
+Class should be used in backend
+:::
+
+## Import
+
+<Tabs>
+  <TabItem value="ES5" label="ES5" default>
+    
+    ```jsx
+    const { Mongoose } = require("js-ts-kit");
+    ```
+
+  </TabItem>
+  <TabItem value="ES6" label="ES6">
+
+     ```jsx
+    import { Mongoose } from "js-ts-kit";
+    ```
+
+  </TabItem>
+</Tabs>
+
+## Connecting To Database
+
+```jsx
+import mongoose from "mongoose";
+import { Mongoose } from "js-ts-kit";
+
+const uri =
+  "mongodb+srv://username:password@cluster0.mongodb.net/mydatabase?retryWrites=true&w=majority";
+const mongooseClass = new Mongoose(uri, mongoose);
+
+async function main() {
+  await mongooseClass.connectToMongoDb();
+}
+```
+
+## Creating Models
+
+```jsx
+import mongoose from "mongoose";
+import { Mongoose } from "js-ts-kit";
+
+const uri =
+  "mongodb+srv://username:password@cluster0.mongodb.net/mydatabase?retryWrites=true&w=majority";
+const mongooseClass = new Mongoose(uri, mongoose);
+
+async function main() {
+  await mongooseClass.connectToMongoDb();
+
+  const User = mongooseClass.createModel("user", {
+    name: {
+      type: String,
+      require: true,
+    },
+    dateCreated: {
+      type: Date,
+      default: Date.now,
+    },
+  });
+  await User.find({});
+}
+```
+
+## Reference
+
+### Create Object / Object Properties
+
+`new Mongoose(uri, mongoose)`
+
+| Name       | Type     | Static | Description                                 |
+| ---------- | -------- | ------ | ------------------------------------------- |
+| `uri`      | `string` | no     | `string` for connecting to MongoDB database |
+| `mongoose` |          | no     | instance from importing `mongoose` package  |
+
+### Methods
+
+#### `connectToMongoDb(options)`
+
+##### Parameters
+
+- <b>Type:</b> `object`
+
+- <b>Description:</b> `object` for
+  [options](https://mongoosejs.com/docs/connections.html#options)
+
+##### Returns
+
+Nothing is returned.
+
+#### `defineSchema(json)`
+
+##### Parameters
+
+- <b>Type:</b> `object`
+
+- <b>Description:</b> `object` for
+  [`Schema`](https://mongoosejs.com/docs/guide.html)
+
+##### Returns
+
+- <b>Type:</b> [`Schema`](https://mongoosejs.com/docs/guide.html)
+
+- <b>Description:</b> Schema for model
+
+#### `createModel(name, schema)`
+
+##### Parameters
+
+| Name     | Type                                                           | Description                    |
+| -------- | -------------------------------------------------------------- | ------------------------------ |
+| `name`   | `string`                                                       | name of collection for MongoDB |
+| `schema` | `object` or [`Schema`](https://mongoosejs.com/docs/guide.html) | Model's properties             |
+
+##### Returns
+
+- <b>Type:</b> [`Model`](https://mongoosejs.com/docs/models.html)
+
+- <b>Description:</b> Model representing collection in MongoDB

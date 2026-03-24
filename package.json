@@ -1,0 +1,38 @@
+{
+  "name": "js-ts-kit",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DHua5922/template-kit"
+  },
+  "version": "11.0.1",
+  "description": "JavaScript Utility Library",
+  "main": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist && webpack --config webpack.prod.js",
+    "start": "webpack serve --config webpack.prod.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "doc": "rm -rf library && yarn build && mkdir library && cp package.json library && cp README.md library && mv dist library && cd documentation && rm -rf node_modules && yarn && yarn start"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "utf8": "^3.0.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.24.5",
+    "@babel/preset-env": "^7.24.5",
+    "@types/utf8": "^3.0.3",
+    "babel-loader": "^9.1.3",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.5.2",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4",
+    "webpack-merge": "^5.10.0",
+    "webpack-node-externals": "^3.0.0"
+  }
+}

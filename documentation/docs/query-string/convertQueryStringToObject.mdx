@@ -1,0 +1,54 @@
+---
+sidebar_position: 1
+---
+
+import Code from "@site/src/components/functional/Code";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+# convertQueryStringToObject
+
+Function that converts query string to `Object`.
+
+:::note
+Function can be used in frontend and backend
+:::
+
+## Import
+
+<Tabs>
+  <TabItem value="ES5" label="ES5" default>
+    
+    ```jsx
+    const { convertQueryStringToObject } = require("js-ts-kit");
+    ```
+
+  </TabItem>
+  <TabItem value="ES6" label="ES6">
+
+     ```jsx
+    import { convertQueryStringToObject } from "js-ts-kit";
+    ```
+
+  </TabItem>
+</Tabs>
+
+## Function
+
+`convertQueryStringToObject(queryString)`
+
+## Parameters
+
+| Name          | Type     | Description            |
+| ------------- | -------- | ---------------------- |
+| `queryString` | `string` | query string after `?` |
+
+## Returns
+
+- <b>Type:</b> `Object`
+
+- <b>Description:</b> `Object` for given query string
+
+## Example
+
+<Code.ConvertQueryStringToObject />

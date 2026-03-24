@@ -1,0 +1,57 @@
+---
+sidebar_position: 1
+---
+
+import Code from "@site/src/components/functional/Code";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+# buildApiRequestString
+
+Function that builds API request string that can be used to call API endpoints manually.
+
+:::note
+Function can be used in frontend and backend
+:::
+
+## Import
+
+<Tabs>
+  <TabItem value="ES5" label="ES5" default>
+    
+    ```jsx
+    const { buildApiRequestString } = require("js-ts-kit");
+    ```
+
+  </TabItem>
+  <TabItem value="ES6" label="ES6">
+
+     ```jsx
+    import { buildApiRequestString } from "js-ts-kit";
+    ```
+
+  </TabItem>
+</Tabs>
+
+## Function
+
+`buildApiRequestString(method, url, headers, body)`
+
+## Parameters
+
+| Name      | Type                        | Description           |
+| --------- | --------------------------- | --------------------- |
+| `method`  | `string`                    | method of request     |
+| `url`     | `string`                    | entire url of request |
+| `headers` | `{ [key: string]: string }` | header of request     |
+| `body`    | `string`                    | body of request       |
+
+## Returns
+
+- <b>Type:</b> `string`
+
+- <b>Description:</b> `string` to be used for calling API endpoints manually
+
+## Example
+
+<Code.BuildApiRequestString />

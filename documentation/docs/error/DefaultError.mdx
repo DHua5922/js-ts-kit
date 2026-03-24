@@ -1,0 +1,64 @@
+---
+sidebar_position: 1
+---
+
+import Code from "@site/src/components/functional/Code";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+# DefaultError
+
+Class for getting error message from parameter in `catch` block.
+
+:::note
+Class can be used in frontend and backend
+:::
+
+## Import
+
+<Tabs>
+  <TabItem value="ES5" label="ES5" default>
+    
+    ```jsx
+    const { DefaultError } = require("js-ts-kit");
+    ```
+
+  </TabItem>
+  <TabItem value="ES6" label="ES6">
+
+     ```jsx
+    import { DefaultError } from "js-ts-kit";
+    ```
+
+  </TabItem>
+</Tabs>
+
+## Example
+
+<Code.DefaultError />
+
+## Reference
+
+:::note
+Includes all properties and methods from [`Error`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) class
+:::
+
+### Create Object / Object Properties
+
+See [constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/Error) for `Error`
+
+### Methods
+
+#### `static message(err)`
+
+##### Parameters
+
+- <b>Type:</b> `Error`
+
+- <b>Description:</b> `Error` parameter from `catch` block
+
+##### Returns
+
+- <b>Type:</b> `string`
+
+- <b>Description:</b> message from `Error` parameter from `catch` block

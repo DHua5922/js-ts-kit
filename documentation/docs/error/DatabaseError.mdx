@@ -1,0 +1,108 @@
+---
+sidebar_position: 2
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+# DatabaseError
+
+Class for getting database error message from parameter in `catch` block.
+
+:::note
+Class should be used in backend
+:::
+
+## Import
+
+<Tabs>
+  <TabItem value="ES5" label="ES5" default>
+    
+    ```jsx
+    const { DatabaseError } = require("js-ts-kit");
+    ```
+
+  </TabItem>
+  <TabItem value="ES6" label="ES6">
+
+     ```jsx
+    import { DatabaseError } from "js-ts-kit";
+    ```
+
+  </TabItem>
+</Tabs>
+
+## Example
+
+```jsx
+import sequelize from "sequelize";
+import { DefaultError, DatabaseError, Sequelize } from "js-ts-kit";
+
+async function Example() {
+  const msSequelize = new Sequelize(
+    sequelize,
+    "username",
+    "password",
+    "database name",
+    "host",
+  );
+  let error = "";
+
+  try {
+    await msSequelize.executeStoredProcedure(
+      "EXEC usp_getUser :id",
+      { id: 1 },
+      sequelize.QueryTypes.SELECT,
+    );
+  } catch (err) {
+    console.error(err);
+
+    error = DefaultError.message(err);
+    if (DatabaseError.isSequelizeError(err)) {
+      error = DatabaseError.sequelize(err);
+    }
+  }
+
+  return error;
+}
+```
+
+## Reference
+
+:::note
+Includes all properties and methods from [`DefaultError`](/docs/error/DefaultError) class
+:::
+
+### Create Object / Object Properties
+
+See [constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error/Error) for `Error`
+
+### Methods
+
+#### `static isSequelizeError(err)`
+
+##### Parameters
+
+- <b>Type:</b> `Error`
+
+- <b>Description:</b> `Error` parameter from `catch` block
+
+##### Returns
+
+- <b>Type:</b> `boolean`
+
+- <b>Description:</b> `true` if error is from sequelize; otherwise, `false`
+
+#### `static sequelize(err)`
+
+##### Parameters
+
+- <b>Type:</b> `Error`
+
+- <b>Description:</b> `Error` parameter from `catch` block
+
+##### Returns
+
+- <b>Type:</b> `string`
+
+- <b>Description:</b> message from `Error` parameter from `catch` block

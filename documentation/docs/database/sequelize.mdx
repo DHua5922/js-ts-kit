@@ -1,0 +1,227 @@
+---
+sidebar_position: 2
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+# Sequelize
+
+Class for working with Microsoft SQL database and [sequelize](https://sequelize.org/).
+
+:::note
+Class should be used in backend
+:::
+
+## Import
+
+<Tabs>
+  <TabItem value="ES5" label="ES5" default>
+    
+    ```jsx
+    const { Sequelize } = require("js-ts-kit");
+    ```
+
+  </TabItem>
+  <TabItem value="ES6" label="ES6">
+
+     ```jsx
+    import { Sequelize } from "js-ts-kit";
+    ```
+
+  </TabItem>
+</Tabs>
+
+## Connecting To Database
+
+```jsx
+import sequelize from "sequelize";
+import { Sequelize } from "js-ts-kit";
+
+const dbUser = "";
+const dbPassword = "";
+const dbName = "";
+const dbHost = "";
+const sequelizeClass = new Sequelize(
+  sequelize,
+  dbHost,
+  dbName,
+  dbUser,
+  dbPassword,
+  {
+    logging: (...msg) => console.log(msg),
+    dialectOptions: {
+      encrypt: true,
+      options: { trustServerCertificate: true, requestTimeout: 300000 },
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
+  },
+);
+
+async function main() {
+  await sequelizeClass.authenticate();
+}
+```
+
+## Executing Stored Procedure
+
+```jsx
+import sequelize from "sequelize";
+import { Sequelize } from "js-ts-kit";
+
+const dbUser = "user";
+const dbPassword = "password";
+const dbName = "database";
+const dbHost = "database.domain.com";
+const sequelizeClass = new Sequelize(
+  sequelize,
+  dbHost,
+  dbName,
+  dbUser,
+  dbPassword,
+  {
+    logging: (...msg) => console.log(msg),
+    dialectOptions: {
+      encrypt: true,
+      options: { trustServerCertificate: true, requestTimeout: 300000 },
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
+  },
+);
+
+async function main() {
+  try {
+    await sequelizeClass.authenticate();
+    await sequelizeClass.executeStoredProcedure(
+      "EXEC usp_getUser :id",
+      { id: 1 },
+      sequelize.QueryTypes.SELECT,
+    );
+  } catch (err) {
+    console.error(err);
+  }
+}
+```
+
+## Executing SQL
+
+```jsx
+import sequelize from "sequelize";
+import { Sequelize } from "js-ts-kit";
+
+const dbUser = "user";
+const dbPassword = "password";
+const dbName = "database";
+const dbHost = "database.domain.com";
+const sequelizeClass = new Sequelize(
+  sequelize,
+  dbHost,
+  dbName,
+  dbUser,
+  dbPassword,
+  {
+    logging: (...msg) => console.log(msg),
+    dialectOptions: {
+      encrypt: true,
+      options: { trustServerCertificate: true, requestTimeout: 300000 },
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
+  },
+);
+
+async function main() {
+  try {
+    await sequelizeClass.authenticate();
+
+    const result = await sequelizeClass.executeSQL(
+      `
+    DECLARE @success bit;
+    DECLARE @successMessage nvarchar(255);
+    EXEC usp_getUser :id, @success OUTPUT, @successMessage OUTPUT;
+    SELECT @success AS success, @successMessage AS successMessage;
+  `,
+      { type: sequelize.QueryTypes.SELECT, replacements: { id: 1 } },
+    );
+
+    const status = result[result.length - 1];
+    if (!status.success) {
+      throw new Error(status.successMessage);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+```
+
+## Reference
+
+### Create Object
+
+`new Sequelize(sequelize, username, password, database, host, options = {})`
+
+| Name        | Type     | Default Value | Description                                                                                                            |
+| ----------- | -------- | ------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `sequelize` |          |               | instance from importing `sequelize` package                                                                            |
+| `host`      | `string` |               | host of database                                                                                                       |
+| `database`  | `string` |               | name of database                                                                                                       |
+| `username`  | `string` |               | username for authenticating against database                                                                           |
+| `password`  | `string` |               | password for authenticating agaomst database                                                                           |
+| `options`   | `object` | `{}`          | `object` for [options](https://sequelize.org/api/v6/class/src/sequelize.js~sequelize#instance-constructor-constructor) |
+
+### Object Properties
+
+| Name        | Type | Static |
+| ----------- | ---- | ------ |
+| `sequelize` |      | no     |
+
+### Methods
+
+#### `authenticate()`
+
+##### Parameters
+
+No parameters.
+
+##### Returns
+
+Nothing is returned.
+
+#### `executeSQL(sqlString, options)`
+
+##### Parameters
+
+| Name        | Type                                                                                                      | Description                                                                                                 |
+| ----------- | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `sqlString` | `string`                                                                                                  | `SQL` code                                                                                                  |
+| `options`   | `object` for [`QueryOptions`](https://sequelize.org/api/v7/interfaces/_sequelize_core.index.queryoptions) | Options for [`Sequelize#query`](https://sequelize.org/api/v7/classes/_sequelize_core.index.sequelize#query) |
+
+##### Returns
+
+- <b>Type:</b> `Promise`
+
+- <b>Description:</b> result from executing given sql string
+
+#### `executeStoredProcedure(sqlString, valuesJson, queryType)`
+
+##### Parameters
+
+| Name         | Type                                                                                                                   | Description                                                                    |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| `sqlString`  | `string`                                                                                                               | `SQL` statement for calling stored procedure with named parameter replacements |
+| `valuesJson` | `object` for [`replacements`](https://sequelize.org/api/v7/interfaces/_sequelize_core.index.queryoptions#replacements) | named parameter replacements in the format `:param`.                           |
+| `queryType`  | enum of [`QueryTypes`](https://sequelize.org/api/v7/enums/_sequelize_core.index.querytypes)                            | type of query for stored procedure                                             |
+
+##### Returns
+
+- <b>Type:</b> `Promise`
+
+- <b>Description:</b> result from executing given stored procedure string

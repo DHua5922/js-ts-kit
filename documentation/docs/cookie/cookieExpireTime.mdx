@@ -1,0 +1,65 @@
+---
+sidebar_position: 1
+---
+
+import Code from "@site/src/components/functional/Code";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+# cookieExpireTime
+
+Function that gives expiration date for cookie.
+
+:::note
+Function should be used in backend
+:::
+
+## Import
+
+<Tabs>
+  <TabItem value="ES5" label="ES5" default>
+    
+    ```jsx
+    const { cookieExpireTime } = require("js-ts-kit");
+    ```
+
+  </TabItem>
+  <TabItem value="ES6" label="ES6">
+
+     ```jsx
+    import { cookieExpireTime } from "js-ts-kit";
+    ```
+
+  </TabItem>
+</Tabs>
+
+## Function
+
+`cookieExpireTime(duration)`
+
+## Parameters
+
+- <b>Type:</b> `string`
+
+- <b>Description:</b> how long cookie is valid for
+
+Below is a list of units for time string to pass in.
+
+| Unit | Label       |
+| ---- | ----------- |
+| `ms` | millisecond |
+| `s`  | second      |
+| `m`  | minute      |
+| `h`  | hour        |
+| `d`  | day         |
+| `y`  | year        |
+
+## Returns
+
+- <b>Type:</b> `Date`
+
+- <b>Description:</b> date that the cookie expires on
+
+## Example
+
+<Code.CookieExpireTime />

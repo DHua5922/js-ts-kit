@@ -1,0 +1,39 @@
+---
+sidebar_position: 0
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import { Button, Col, Row } from "react-bootstrap";
+import Link from "@docusaurus/Link";
+
+# Installation
+
+<Tabs>
+  <TabItem value="npm" label="npm" default>
+
+    ```jsx
+    npm install js-ts-kit
+    ```
+
+  </TabItem>
+  <TabItem value="yarn" label="yarn">
+
+    ```jsx
+    yarn add js-ts-kit
+    ```
+
+  </TabItem>
+</Tabs>
+
+## Quick Start
+
+```jsx
+import { cookieExpireTime } from "js-ts-kit";
+
+console.log(cookieExpireTime("1d"));
+```
+
+<Link to="/docs/cookie/cookieExpireTime">
+  <Button className="btn-primary">See Utilities</Button>
+</Link>

@@ -1,0 +1,115 @@
+---
+sidebar_position: 1
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+# Bcrypt
+
+Class for hashing passwords.
+
+:::note
+Class should be used in backend.
+:::
+
+## Import
+
+<Tabs>
+  <TabItem value="ES5" label="ES5" default>
+    
+    ```jsx
+    const { Bcrypt } = require("js-ts-kit");
+    ```
+
+  </TabItem>
+  <TabItem value="ES6" label="ES6">
+
+     ```jsx
+    import { Bcrypt } from "js-ts-kit";
+    ```
+
+  </TabItem>
+</Tabs>
+
+## Hashing Password
+
+```jsx title="Code"
+import { Bcrypt } from "js-ts-kit";
+import bcrypt from "bcrypt";
+
+async function main() {
+  const myBcrypt = new Bcrypt(bcrypt);
+  await myBcrypt.hashPassword("test", 10);
+}
+```
+
+```jsx title="Output"
+$2a$10$a8raagrcuMpJmP53OAFDdu.I7UpwcZLLWGsKFtQx4uOxFPly5nhrW;
+```
+
+## Comparing Hashed & Unhashed Passwords
+
+```jsx title="Code"
+import { Bcrypt } from "js-ts-kit";
+import bcrypt from "bcrypt";
+
+async function main() {
+  const myBcrypt = new Bcrypt(bcrypt);
+  await myBcrypt.isMatchingPassword(
+    "$2a$10$a8raagrcuMpJmP53OAFDdu.I7UpwcZLLWGsKFtQx4uOxFPly5nhrW",
+    "test",
+  );
+}
+```
+
+```jsx title="Output"
+true;
+```
+
+## Reference
+
+:::note
+Check out [Bcrypt-Generator.com](https://bcrypt-generator.com/) if you need online tool for hashing password or checking hashed password
+:::
+
+### Create Object / Object Properties
+
+`new Bcrypt(bcrypt)`
+
+| Name     | Type | Static | Description                              |
+| -------- | ---- | ------ | ---------------------------------------- |
+| `bcrypt` |      | no     | instance from importing `bcrypt` package |
+
+### Methods
+
+#### `static hashPassword(passwordToBeHashed, rounds)`
+
+##### Parameters
+
+| Name                 | Type     | Default Value | Description                       |
+| -------------------- | -------- | ------------- | --------------------------------- |
+| `passwordToBeHashed` | `string` |               | password that has not been hashed |
+| `rounds`             | `number` | 10            | cost of processing data           |
+
+##### Returns
+
+- <b>Type:</b> `Promise<string>`
+
+- <b>Description:</b> hashed password
+
+#### `static isMatchingPassword(hashedPassword, unhashedPassword)`
+
+##### Parameters
+
+| Name               | Type     | Description                       |
+| ------------------ | -------- | --------------------------------- |
+| `hashedPassword`   | `string` | hashed password                   |
+| `unhashedPassword` | `string` | password that has not been hashed |
+
+##### Returns
+
+- <b>Type:</b> `Promise<boolean>`
+
+- <b>Description:</b> `true` if unhashed password can be hashed to hashed
+  password. Otherwise, `false`.

@@ -1,0 +1,122 @@
+---
+sidebar_position: 1
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+# JwtToken
+
+Class for working with JSON Web Token.
+
+:::note
+Class should be used in backend.
+:::
+
+## Import
+
+<Tabs>
+  <TabItem value="ES5" label="ES5" default>
+    
+    ```jsx
+    const { JwtToken } = require("js-ts-kit");
+    ```
+
+  </TabItem>
+  <TabItem value="ES6" label="ES6">
+
+     ```jsx
+    import { JwtToken } from "js-ts-kit";
+    ```
+
+  </TabItem>
+</Tabs>
+
+## Creating Tokens
+
+```jsx title="Code"
+import { JwtToken } from "js-ts-kit";
+import jwt from "jsonwebtoken";
+
+async function main() {
+  const jwtToken = new JwtToken("12345", jwt);
+  jwtToken.create({ id: 1 });
+}
+```
+
+```jsx title="Output"
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+  .eyJzdWIiOiIxMjM0NTY3ODkwIiwiaWQiOjEsImlhdCI6MTUxNjIzOTAyMn0
+  .qbkPu51ruczq9jWaoHR6jDbyU6q06QZoSVX98zboWvg;
+```
+
+## Decoding Tokens
+
+```jsx title="Code"
+import { JwtToken } from "js-ts-kit";
+import jwt from "jsonwebtoken";
+
+async function main() {
+  const jwtToken = new JwtToken("12345", jwt);
+  const tokenToDecode =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiaWQiOjEsImlhdCI6MTUxNjIzOTAyMn0.qbkPu51ruczq9jWaoHR6jDbyU6q06QZoSVX98zboWvg";
+  jwtToken.decode(tokenToDecode);
+}
+```
+
+```jsx title="Output"
+{
+  "sub": "1234567890",
+  "id": 1,
+  "iat": 1516239022
+}
+```
+
+## Reference
+
+:::note
+Check out [jwt.io](https://jwt.io/) if you need online tool for creating jwt token or checking jwt token's payload.
+
+Check out [jsonwebtoken npm package](https://www.npmjs.com/package/jsonwebtoken) for more information on working with JSON Web Tokens.
+:::
+
+### Create Object / Object Properties
+
+`new JwtToken(secret, jwt)`
+
+| Name     | Type   | Static | Description                                        |
+| -------- | ------ | ------ | -------------------------------------------------- |
+| `secret` | string | no     | secret to use for creating and decoding JWT tokens |
+| `jwt`    |        | no     | instance from importing `jsonwebtoken` package     |
+
+### Methods
+
+#### `static create(payload, options)`
+
+##### Parameters
+
+| Name                                                                                                       | Type     | Default Value |
+| ---------------------------------------------------------------------------------------------------------- | -------- | ------------- |
+| `payload`                                                                                                  | `object` |               |
+| [`options`](https://www.npmjs.com/package/jsonwebtoken#jwtsignpayload-secretorprivatekey-options-callback) | `object` | `{}`          |
+
+##### Returns
+
+- <b>Type:</b> `string`
+
+* <b>Description:</b> JsonWebToken as `string`
+
+#### `static decode(token, options)`
+
+##### Parameters
+
+| Name                                                                                                      | Type     | Default Value |
+| --------------------------------------------------------------------------------------------------------- | -------- | ------------- |
+| `token`                                                                                                   | `string` |               |
+| [`options`](https://www.npmjs.com/package/jsonwebtoken#jwtverifytoken-secretorpublickey-options-callback) | `object` | `{}`          |
+
+##### Returns
+
+- <b>Type:</b> `object`
+
+- <b>Description:</b> payload of token
