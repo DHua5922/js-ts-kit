@@ -28,14 +28,23 @@ jobs:
         with:
           node-version: 24
           cache: yarn
+          cache-dependency-path: documentation/yarn.lock
 
       - name: Enable Corepack
         run: corepack enable
 
+      # Install npm package for component library and update package.json file to use that component library, instead of local library
+      - name: Install npm package for js-ts-kit
+        run: |
+          cd documentation
+          yarn add js-ts-kit
+
       - name: Install dependencies
+        working-directory: documentation
         run: yarn install --immutable
 
       - name: Build website
+        working-directory: documentation
         run: yarn build
 
       - name: Setup Pages
@@ -44,7 +53,7 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: build
+          path: documentation/build
 
   deploy:
     environment:
