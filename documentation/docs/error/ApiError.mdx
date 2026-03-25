@@ -2,7 +2,6 @@
 sidebar_position: 3
 ---
 
-import Code from "@site/src/components/functional/Code";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
@@ -35,7 +34,43 @@ Class can be used in frontend and backend
 
 ## Example
 
-<Code.ApiError />
+```jsx live
+function Example() {
+  const [statusCode, setStatusCode] = useState(0);
+  const [error, setError] = useState("");
+
+  async function getApiData() {
+    let error = null;
+
+    try {
+      await axios({
+        url: "http://localhost:8080",
+        method: "get",
+      });
+    } catch (err) {
+      console.error(err);
+
+      error = new ApiError(DefaultError.message(err), 500);
+      if (ApiError.isApiError(err)) {
+        error = new ApiError(ApiError.default(err), err.response.status);
+      }
+    }
+
+    setStatusCode(error.status);
+    setError(error ? error.message : "");
+  }
+
+  getApiData();
+
+  return (
+    <>
+      <b>Status:</b> {statusCode}
+      <br />
+      <b>Message:</b> {error}
+    </>
+  );
+}
+```
 
 ## Reference
 

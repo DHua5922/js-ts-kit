@@ -2,7 +2,6 @@
 sidebar_position: 1
 ---
 
-import Code from "@site/src/components/functional/Code";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
@@ -54,4 +53,16 @@ Function can be used in frontend and backend
 
 ## Example
 
-<Code.BuildApiRequestString />
+```jsx live
+function Example() {
+  const method = "POST";
+  const url = "http://localhost:8080";
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiaWQiOjEsImlhdCI6MTUxNjIzOTAyMn0.qbkPu51ruczq9jWaoHR6jDbyU6q06QZoSVX98zboWvg`,
+  };
+  const bodyString = JSON.stringify({ email: "email", password: "password" });
+
+  return <>{buildApiRequestString(method, url, headers, bodyString)}</>;
+}
+```
