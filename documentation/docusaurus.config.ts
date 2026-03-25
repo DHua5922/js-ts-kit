@@ -67,10 +67,6 @@ const config = {
       },
       navbar: {
         title: libraryName,
-        logo: {
-          alt: "My Site Logo",
-          src: "img/logo.png",
-        },
         items: [
           {
             type: "docSidebar",
