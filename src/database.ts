@@ -27,7 +27,7 @@ class Mongoose {
   }
 
   defineSchema(json: Record<string, any>) {
-    return this.mongoose.Schema(json);
+    return new this.mongoose.Schema(json);
   }
 
   createModel(name: string, schema: Record<string, any>) {
