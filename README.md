@@ -1,4 +1,4 @@
-# JS-TS-Kit
+# js-ts-kit
 
 A JavaScript and TypeScript toolkit for shared code, including reusable variables, helper functions, constants, connectors, and core modules.
 
@@ -14,6 +14,10 @@ Read sources in `References` section to understand how to bundle this library so
 ## Installation
 
 Enter `yarn add js-ts-kit`.
+
+## Documentation Site
+
+[https://www.huadylan.com/js-ts-kit/](https://www.huadylan.com/js-ts-kit/)
 
 ## References
 

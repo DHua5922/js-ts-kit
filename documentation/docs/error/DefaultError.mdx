@@ -2,7 +2,6 @@
 sidebar_position: 1
 ---
 
-import Code from "@site/src/components/functional/Code";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
@@ -35,7 +34,21 @@ Class can be used in frontend and backend
 
 ## Example
 
-<Code.DefaultError />
+```jsx live
+function Example() {
+  let error = "";
+
+  try {
+    throw new Error("This is a test error message");
+  } catch (err) {
+    console.error(err);
+
+    error = DefaultError.message(err);
+  }
+
+  return error;
+}
+```
 
 ## Reference
 

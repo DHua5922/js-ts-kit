@@ -1,8 +1,8 @@
 import Layout from "@theme/Layout";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { Button, Col, Row } from "react-bootstrap";
-import Bootstrap from "../components/functional/Bootstrap";
-import Feature from "../components/functional/Feature";
+import Bootstrap from "../components/Bootstrap";
+import Feature from "../components/Feature";
 import Link from "@docusaurus/Link";
 
 function Homepage() {
