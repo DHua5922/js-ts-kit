@@ -32,7 +32,7 @@ Class can be used in frontend and backend
   </TabItem>
 </Tabs>
 
-## Example
+## Examples
 
 ```jsx live
 function Example() {
@@ -47,6 +47,24 @@ function Example() {
   }
 
   return error;
+}
+```
+
+```jsx live
+function JsonExample() {
+  const errorJson = {
+    status: 400,
+    error: {
+      message: "Unable to publish",
+      payload: {
+        nested: {
+          exceptionMessage: "Invalid payload",
+        },
+      },
+    },
+  };
+
+  return DefaultError.json(errorJson);
 }
 ```
 
@@ -75,3 +93,19 @@ See [constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refere
 - <b>Type:</b> `string`
 
 - <b>Description:</b> message from `Error` parameter from `catch` block
+
+#### `static json(err)`
+
+##### Parameters
+
+- <b>Type:</b> `Error | any`
+
+- <b>Description:</b> JSON-like error value whose nested message fields should
+  be traversed
+
+##### Returns
+
+- <b>Type:</b> `string`
+
+- <b>Description:</b> extracted error message string from nested JSON objects,
+  arrays, and error instances
