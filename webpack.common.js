@@ -1,18 +1,10 @@
 const path = require("path");
-const nodeExternals = require("webpack-node-externals");
+const { dependencies = {} } = require("./package.json");
+
+const dependencyNames = Object.keys(dependencies);
 
 module.exports = {
   entry: "./src/index.ts", // indicate which module webpack should use to begin building out its internal dependency graph
-  output: {
-    // tells webpack where to emit the bundles it creates and how to name these files
-    path: path.resolve(__dirname, "dist"), // tell webpack where we want bundle to be emitted to
-    filename: "index.js", // name of bundle
-    globalObject: "this", // prevent error: self not defined
-    library: {
-      name: "js-ts-kit", // name of this library
-      type: "umd", // allow this library to be used in other environments like CommonJS, AMD, Node.js, etc
-    },
-  },
   resolve: {
     extensions: [".ts", ".js"], // add .ts extension
   },
@@ -21,7 +13,12 @@ module.exports = {
       {
         test: /\.ts$/,
         exclude: /node_modules/,
-        use: "ts-loader", // use ts-loader for TypeScript files
+        use: {
+          loader: "ts-loader",
+          options: {
+            transpileOnly: true,
+          },
+        }, // handle transpilation here and let tsc own declaration output
       },
       {
         test: /\.js$/,
@@ -35,5 +32,9 @@ module.exports = {
       },
     ],
   },
-  externals: [nodeExternals()], // treat all dependencies in package.json as external and not include them in the bundle
+  output: {
+    path: path.resolve(__dirname, "dist"), // tell webpack where we want bundle to be emitted to
+    globalObject: "this", // prevent error: self not defined
+  },
+  externals: dependencyNames, // treat runtime dependencies as external and keep the published bundle lean
 };

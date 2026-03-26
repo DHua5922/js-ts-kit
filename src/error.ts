@@ -2,6 +2,12 @@ function isObject(value: unknown): value is Record<string, any> {
   return typeof value === "object" && value !== null;
 }
 
+function isError(value: unknown): value is Error {
+  return value instanceof Error;
+}
+
+const ERROR_MESSAGE_KEYS = ["exceptionMessage", "message"] as const;
+
 function extractMessage(value: unknown) {
   if (typeof value === "string") return value.trim();
   if (isObject(value) && typeof value.message === "string") {
@@ -19,6 +25,17 @@ function appendMessage(messages: string[], value: unknown) {
   }
 }
 
+function collectDirectMessages(
+  value: Record<string, unknown>,
+  messages: string[],
+) {
+  for (const key of ERROR_MESSAGE_KEYS) {
+    if (typeof value[key] === "string") {
+      appendMessage(messages, value[key]);
+    }
+  }
+}
+
 function extractApiErrorMessage(err: unknown) {
   const response = isObject(err) ? err.response : null;
   const data = isObject(response) ? response.data : null;
@@ -28,21 +45,74 @@ function extractApiErrorMessage(err: unknown) {
   }
 
   if (isObject(data)) {
-    if (typeof data.exceptionMessage === "string") {
-      return extractMessage(data.exceptionMessage);
-    }
+    for (const key of ERROR_MESSAGE_KEYS) {
+      const message = extractMessage(data[key]);
 
-    if (typeof data.message === "string") {
-      return extractMessage(data.message);
+      if (message) {
+        return message;
+      }
     }
   }
 
   return "";
 }
 
+function collectJsonMessages(
+  value: unknown,
+  messages: string[],
+  seen: WeakSet<object>,
+): void {
+  if (typeof value === "string") {
+    appendMessage(messages, value);
+    return;
+  }
+
+  if (!isObject(value)) {
+    return;
+  }
+
+  if (isError(value)) {
+    appendMessage(messages, value);
+  }
+
+  if (seen.has(value)) {
+    return;
+  }
+
+  seen.add(value);
+
+  if (Array.isArray(value)) {
+    for (const item of value) {
+      collectJsonMessages(item, messages, seen);
+    }
+  } else {
+    const objectValue = value as Record<string, unknown>;
+
+    collectDirectMessages(objectValue, messages);
+
+    for (const [key, nestedValue] of Object.entries(objectValue)) {
+      if (ERROR_MESSAGE_KEYS.indexOf(key as (typeof ERROR_MESSAGE_KEYS)[number]) !== -1) {
+        continue;
+      }
+
+      collectJsonMessages(nestedValue, messages, seen);
+    }
+  }
+
+  seen.delete(value);
+}
+
 class DefaultError extends Error {
   static message(err: any) {
     return extractMessage(err);
+  }
+
+  static json(err: any) {
+    const messages: string[] = [];
+
+    collectJsonMessages(err, messages, new WeakSet());
+
+    return this.message(messages.length ? messages.join("\n\n") : err);
   }
 }
 

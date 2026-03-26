@@ -15,6 +15,16 @@ Read sources in `References` section to understand how to bundle this library so
 
 Enter `yarn add js-ts-kit`.
 
+## Release Workflow
+
+Use the npm lifecycle hooks instead of publishing from stale local artifacts.
+
+1. Run `npm test`.
+2. Run `npm run pack:check` to inspect the exact tarball contents.
+3. Run `npm publish` after the dry run looks correct.
+
+`npm pack` and `npm publish` automatically trigger `prepack`, which rebuilds `dist` before packaging.
+
 ## Documentation Site
 
 [https://www.huadylan.com/js-ts-kit/](https://www.huadylan.com/js-ts-kit/)

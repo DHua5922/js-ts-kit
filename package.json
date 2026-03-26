@@ -6,17 +6,33 @@
   },
   "version": "1.0.0",
   "description": "JavaScript Utility Library",
-  "main": "dist/index.js",
-  "types": "dist/types/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.mjs"
+    }
+  },
   "scripts": {
-    "build": "rm -rf dist && webpack --config webpack.prod.js",
-    "start": "webpack serve --config webpack.prod.js",
+    "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
+    "build": "npm run clean && npm run build:types && npm run build:bundle",
+    "build:bundle": "webpack --config webpack.prod.js",
+    "build:types": "tsc --project tsconfig.json --emitDeclarationOnly",
+    "start": "webpack serve --config webpack.dev.js",
+    "pack:check": "npm pack --dry-run --cache .npm-cache",
+    "prepack": "npm run build",
+    "prepublishOnly": "npm test && npm run pack:check",
     "test": "jest --coverage",
     "test:watch": "jest --watchAll --coverage",
     "doc": "rm -rf library && yarn build && mkdir library && cp package.json library && cp README.md library && mv dist library && cd documentation && rm -rf node_modules && yarn && yarn start"
   },
   "author": "",
   "license": "ISC",
+  "sideEffects": false,
   "dependencies": {
     "utf8": "^3.0.0"
   },
@@ -36,8 +52,7 @@
     "typescript": "^5.5.2",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.0.4",
-    "webpack-merge": "^5.10.0",
-    "webpack-node-externals": "^3.0.0"
+    "webpack-dev-server": "^5.2.3",
+    "webpack-merge": "^5.10.0"
   }
 }

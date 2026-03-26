@@ -8,6 +8,41 @@ describe("DefaultError", () => {
   it("extracts a message from an error-like object", () => {
     expect(DefaultError.message({ message: " broken " })).toBe("broken");
   });
+
+  it("traverses nested json objects and extracts error messages", () => {
+    expect(
+      DefaultError.json({
+        status: 500,
+        error: {
+          message: "Top level",
+          nested: {
+            exceptionMessage: "Inner exception",
+          },
+        },
+        details: [
+          { message: "First detail" },
+          { reason: { message: "Second detail" } },
+        ],
+      }),
+    ).toBe("Top level\n\nInner exception\n\nFirst detail\n\nSecond detail");
+  });
+
+  it("handles nested errors, arrays, and circular references", () => {
+    const root = new Error("Root");
+    const payload: Record<string, unknown> = {
+      error: root,
+      items: [
+        { nested: new Error("Nested item") },
+        { metadata: { message: "Array detail" } },
+      ],
+    };
+
+    payload.self = payload;
+
+    expect(DefaultError.json(payload)).toBe(
+      "Root\n\nRoot\n\nNested item\n\nNested item\n\nArray detail",
+    );
+  });
 });
 
 describe("DatabaseError", () => {
